@@ -1,0 +1,2 @@
+dython==0.7.1.post3
+statsmodels==0.12.2
