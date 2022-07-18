@@ -1,0 +1,29 @@
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+minikube start
+minikube dashboard --url=true
+
+
+Installation de kublet
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+kubectl version --client
+kubectl proxy --address='0.0.0.0' --disable-filter=true
+minikube addons enable ingress 
+
+
+
+docker image build . -t fast_api:latest
+
+
+kubectl create secret generic my-secret --from-literal bdd_password=datascientest1234
+kubectl create -f my-deployment.yml
+kubectl create -f my-service.yml
+kubectl create -f my-ingress.yml
+
+docker tag fast_api:latest yannoushka/jan22_cde_05_strokes:latest
+docker push yannoushka/jan22_cde_05_strokes:latest
+
+tunnel ssh pour voir l'api
+ssh -i "data_enginering_machine.pem" ubuntu@34.255.122.217 -fNL 8000:192.168.49.2:80
