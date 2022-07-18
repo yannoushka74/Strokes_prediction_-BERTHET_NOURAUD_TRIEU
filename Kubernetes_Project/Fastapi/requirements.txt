@@ -1,0 +1,12 @@
+fastapi
+sqlalchemy
+mysqlclient
+uvicorn
+dython
+imblearn
+matplotlib
+numpy
+pandas
+scipy
+sklearn
+statsmodels
