@@ -1,49 +1,129 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from sqlalchemy.engine import create_engine
-import os
+from ML import generate_ml, perf_ml, stroke_predict
 import pandas as pd
 
-server = FastAPI(title='Stroke API')
+api = FastAPI(
+    title='My API ML',
+    description="My own API ML powered by FastAPI.",
+    version="1.0.1")
+
+# fichier dans lequel le modèle de ML est sauvegardé une fois généré
+saved_ml_file = 'regression_model_saved.joblib'
 
 
-users = {
-  "Nathalie": "wonderland",
-  "Pierre": "builder",
-  "Yann": "mandarine"
-}
+class Patient(BaseModel):
+    """ Classe comportant les données utiles d'un patient pour déterminer son stroke
+        - age
+        - problème d'hypertension : 0 (non), 1 (oui)
+        - Maladie du coeur : 0 (non), 1 (oui)
+        - Déjà marrié ? : 0 (non), 1 (oui)
+        - Type de résidence : 0 (rural), 1 (urbain)
+        - Taux de glucose
+        - bmi : indice de masse corporel
+    """
+    age: float
+    hypertension: bool
+    heart_disease: bool
+    ever_married: bool
+    Residence_type: bool
+    avg_glucose_level: float
+    bmi: float
+
+
+@api.get('/status')
+def get_status():
+    """ Retourne 1 si l'API fonctionne correctement
+    """
+    return "1"
+
+
+@api.get('/save_ML')
+def get_generate_ml():
+    """Si le ML n'a pas encore été sauvegardé dans un fichier, génère le ML et sauvegarde dans saved_ml_file.
+    Retourne le nom du fichier dans lequel le ML est sauvegardé
+    """
+    try:
+        with open(saved_ml_file):
+            # pass
+            return 'Modèle déjà sauvegardé dans {smf}.'.format(smf=saved_ml_file)
+    except IOError:
+        print(generate_ml('strokes.csv', saved_ml_file))
+        return 'Modèle sauvegardé dans {smf}.'.format(smf=saved_ml_file)
+
+
+@api.get('/perf_ML')
+def get_perf_ml():
+    """
+    Si le ML n'a pas encore été sauvegardé dans un fichier, génère le ML et sauvegarde dans saved_ml_file.
+    Retourne la précision du modèle de ML
+    """
+    get_generate_ml()
+    return 'performance du modèle :{perf}.format(perf=perf_ml(saved_ML_file))'
+
+
+@api.post('/stroke')
+def post_predict_patient(patient: Patient):
+    """
+    Prédit à partir du ML si le patient aura une crise cardiaque ou pas
+    :param patient : patient pour lequel on veut prédire le stroke
+    :return : la prédiction pour la variable stoke
+    """
+    try:
+        get_generate_ml()
+        data=[patient.age , patient.hypertension,patient.heart_disease, patient.ever_married,
+              patient.Residence_type, patient.avg_glucose_level, patient.bmi]
+        x_patient= pd.Dataframe(data, ['age', 'hypertension', 'heart_disease', 'ever_married',
+                                       'Residence_type', 'avg_glucose_level', 'bmi'])
+        stroke = stroke_predict(x_patient, saved_ml_file)
+        if stroke == 1:
+            return 'Le patient aura une crise cardiaque'
+        else:
+            return "Le patient n'aura pas de crise cardiaque"
+    except:
+        return {"Error"}
+
+
+#server = FastAPI(title='Stroke API')
+
+
+#users = {
+#  "Nathalie": "wonderland",
+#  "Pierre": "builder",
+#  "Yann": "mandarine"
+#}
 
 
 
-df = pd.read_csv('stroke_clean.csv',sep=';')
+#df = pd.read_csv('stroke_clean.csv',sep=';')
 
-def authenticate_user(username, password):
-    authenticated_user = False
-    if username in users.keys():
-        if users[username] == password:
-            authenticated_user = True
-    return authenticated_user
+#def authenticate_user(username, password):
+#    authenticated_user = False
+#    if username in users.keys():
+#        if users[username] == password:
+#            authenticated_user = True
+#    return authenticated_user
 
 
-@server.get('/')
-def get_index():
-    return {
-    Response(df['id'].to_json(orient="records"), media_type="application/json")
-    }
+#@server.get('/')
+#def get_index():
+#    return {
+#    Response(df['id'].to_json(orient="records"), media_type="application/json")
+#    }
 
-@server.get('/Authorization')
-async def return_permission(username: str = 'username', password: str = 'password'):
-    if authenticate_user(username=username, password=password):
-        return {'username': username, 'permissions': 'Utilisateur authorisé a utiliser l''API'}
-    else:
-        raise HTTPException(status_code=403, detail='Authentication failed')
+#@server.get('/Authorization')
+#async def return_permission(username: str = 'username', password: str = 'password'):
+#    if authenticate_user(username=username, password=password):
+#        return {'username': username, 'permissions': 'Utilisateur authorisé a utiliser l''API'}
+#    else:
+#        raise HTTPException(status_code=403, detail='Authentication failed')
 
-@server.get('/status')
-async def return_status():
-    '''
-    returns 1 if the app is up
-    '''
-    return 1
+#@server.get('/status')
+#async def return_status():
+#    '''
+#    returns 1 if the app is up
+#    '''
+#    return 1
 
 
 
