@@ -48,7 +48,8 @@ def get_generate_ml():
             # pass
             return 'Modèle déjà sauvegardé dans {smf}.'.format(smf=saved_ml_file)
     except IOError:
-        print(generate_ml('strokes.csv', saved_ml_file))
+        print(generate_ml(
+            '/home/ubuntu/Strokes_prediction_BERTHET_NOURAUD_TRIEU/strokes.csv', saved_ml_file))
         return 'Modèle sauvegardé dans {smf}.'.format(smf=saved_ml_file)
 
 
@@ -59,7 +60,7 @@ def get_perf_ml():
     Retourne la précision du modèle de ML
     """
     get_generate_ml()
-    return 'performance du modèle :{perf}.format(perf=perf_ml(saved_ML_file))'
+    return 'performance du modèle :{perf}'.format(perf=perf_ml(saved_ml_file))
 
 
 @api.post('/stroke')
@@ -71,10 +72,10 @@ def post_predict_patient(patient: Patient):
     """
     try:
         get_generate_ml()
-        data=[patient.age , patient.hypertension,patient.heart_disease, patient.ever_married,
-              patient.Residence_type, patient.avg_glucose_level, patient.bmi]
-        x_patient= pd.Dataframe(data, ['age', 'hypertension', 'heart_disease', 'ever_married',
-                                       'Residence_type', 'avg_glucose_level', 'bmi'])
+        data = [patient.age, patient.hypertension, patient.heart_disease, patient.ever_married,
+                patient.Residence_type, patient.avg_glucose_level, patient.bmi]
+        x_patient = pd.Dataframe(data, ['age', 'hypertension', 'heart_disease', 'ever_married',
+                                        'Residence_type', 'avg_glucose_level', 'bmi'])
         stroke = stroke_predict(x_patient, saved_ml_file)
         if stroke == 1:
             return 'Le patient aura une crise cardiaque'
@@ -87,17 +88,16 @@ def post_predict_patient(patient: Patient):
 #server = FastAPI(title='Stroke API')
 
 
-#users = {
+# users = {
 #  "Nathalie": "wonderland",
 #  "Pierre": "builder",
 #  "Yann": "mandarine"
-#}
-
+# }
 
 
 #df = pd.read_csv('stroke_clean.csv',sep=';')
 
-#def authenticate_user(username, password):
+# def authenticate_user(username, password):
 #    authenticated_user = False
 #    if username in users.keys():
 #        if users[username] == password:
@@ -105,26 +105,22 @@ def post_predict_patient(patient: Patient):
 #    return authenticated_user
 
 
-#@server.get('/')
-#def get_index():
+# @server.get('/')
+# def get_index():
 #    return {
 #    Response(df['id'].to_json(orient="records"), media_type="application/json")
 #    }
 
-#@server.get('/Authorization')
-#async def return_permission(username: str = 'username', password: str = 'password'):
+# @server.get('/Authorization')
+# async def return_permission(username: str = 'username', password: str = 'password'):
 #    if authenticate_user(username=username, password=password):
 #        return {'username': username, 'permissions': 'Utilisateur authorisé a utiliser l''API'}
 #    else:
 #        raise HTTPException(status_code=403, detail='Authentication failed')
 
-#@server.get('/status')
-#async def return_status():
+# @server.get('/status')
+# async def return_status():
 #    '''
 #    returns 1 if the app is up
 #    '''
 #    return 1
-
-
-
-
