@@ -1,0 +1,24 @@
+        =================================
+            CHECK IF CSV IS AVAILABLE
+        =================================
+        test date = 2022-07-29
+        tested file = stroke_clean.csv
+
+        expected result = True
+        actual restult = True
+
+        ==>  SUCCESS
+
+        
+        =================================
+            CHECK IF CSV IS AVAILABLE
+        =================================
+        test date = 2022-07-29
+        tested file = stroke_clean.csv
+
+        expected result = True
+        actual restult = True
+
+        ==>  SUCCESS
+
+        

@@ -23,10 +23,10 @@ class Patient(BaseModel):
         - bmi : indice de masse corporel
     """
     age: float
-    hypertension: bool
-    heart_disease: bool
-    ever_married: bool
-    Residence_type: bool
+    hypertension: int
+    heart_disease: int
+    ever_married: int
+    Residence_type: int
     avg_glucose_level: float
     bmi: float
 
@@ -48,8 +48,7 @@ def get_generate_ml():
             # pass
             return 'Modèle déjà sauvegardé dans {smf}.'.format(smf=saved_ml_file)
     except IOError:
-        print(generate_ml(
-            '/home/ubuntu/Strokes_prediction_BERTHET_NOURAUD_TRIEU/strokes.csv', saved_ml_file))
+        print(generate_ml('stroke_clean.csv', saved_ml_file))
         return 'Modèle sauvegardé dans {smf}.'.format(smf=saved_ml_file)
 
 
@@ -74,15 +73,18 @@ def post_predict_patient(patient: Patient):
         get_generate_ml()
         data = [patient.age, patient.hypertension, patient.heart_disease, patient.ever_married,
                 patient.Residence_type, patient.avg_glucose_level, patient.bmi]
-        x_patient = pd.Dataframe(data, ['age', 'hypertension', 'heart_disease', 'ever_married',
-                                        'Residence_type', 'avg_glucose_level', 'bmi'])
+        print(data)
+        x_patient = pd.DataFrame([data], columns=['age', 'hypertension', 'heart_disease', 'ever_married',
+                                                  'Residence_type', 'avg_glucose_level', 'bmi'])
         stroke = stroke_predict(x_patient, saved_ml_file)
         if stroke == 1:
             return 'Le patient aura une crise cardiaque'
         else:
             return "Le patient n'aura pas de crise cardiaque"
-    except:
-        return {"Error"}
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail='bad Type')
 
 
 #server = FastAPI(title='Stroke API')
