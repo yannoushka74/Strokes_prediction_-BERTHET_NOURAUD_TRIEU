@@ -14,6 +14,7 @@ Vous devez donc:
 - mettre en place une batterie de tests unitaires avec Pytest pour tester le fonctionnement de l’API.
 - Définir un container Docker pour isoler l’API de son environnement (de la machine hôte)
 - Proposer une stratégie de déploiement et d’exposition de l’API dockerisée avec Kubernetes
+
 Attendus
 Vous devez rendre un lien vers un repo Github contenant les fichiers suivants:
 - un ou plusieurs fichiers de définition de l’API
