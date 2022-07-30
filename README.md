@@ -24,9 +24,6 @@ Vous devez rendre un lien vers un repo Github contenant les fichiers suivants:
 - un fichier de création des déploiements, des services, des ingress, …
 - un fichier de documentation du travail effectué (justification des choix, …)
 
-Régression logistique permet d'avoir une probabilité
-Pickles pour FASTapi
-
 Nathalide : FastAPI
 Yann : Kubernetes
 Louis : Tests & Doc
