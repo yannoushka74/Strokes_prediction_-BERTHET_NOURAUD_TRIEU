@@ -1,0 +1,12 @@
+Strokes - P2
+
+- Création de l'API avec FastAPI dans main.py et ML.py
+
+Fonctionnalités mise à disposition :
+-> Etat de fonctionnement de l'API
+-> Génération du modèle de Machine Learning à partir d'un fichier csv contenant les données de patients, en utilisant la régression logistique, et stockage du modèle entraîné dans un fichier avec la librairie Joblib. Seules les variables d'observations les plus pertinentes ont été conservées pour entraîner le modèle.
+-> Performance du modèle enregistré
+-> Prédiction d'une crise cardiaque d'un patient en fonction de ses données de santé et contextuelles les plus corrélées avec le fait d'avoir une crise cardiaque: âge, état matrimonial, type de résidence (urbain ou rural), hypertension, maladie du coeur, taux de glucose, bmi (imc)
+Les deux dernières fonctionnalités sont accessibles même si le modèle n'a pas encore été généré. Dans ce cas, il est automatiquement créé et stocké dans un fichier avant de lancer ces fonctionnalités.
+
+Documentation plus complète dans l'interface OpenApi
