@@ -77,6 +77,32 @@ def perf_ml(saved_ml_file):
 
 # Prédiction de la variable stroke pour un patient à partir du ML enregistré dans saved_ml_file
 def stroke_predict(x_patient, saved_ml_file):
+    # Chargement du modèle
     reg_loaded = load(saved_ml_file)
+    # standardisation des données
+    x_patient = standard_data(x_patient)
+    # Prédiction
     y_pred = reg_loaded.predict(x_patient)
     return y_pred[0]
+
+
+# Standardisation des données numériques
+def standard_data(x_data):
+
+    df = pd.read_csv("stroke_clean.csv", index_col="id")
+    # calcul des écarts types et moyennes pour les colonnes numériques
+    ecart_type = df.std(axis=0)
+    moyenne = df.mean(axis=0)
+
+    #Standardisation de l'âge
+    x_data.age = (x_data.age - moyenne.age)/ecart_type.age
+    # Standardisation de l'hypertension
+    x_data.hypertension = (x_data.hypertension - moyenne.hypertension) / ecart_type.hypertension
+    # Standardisation de l'heart_disease
+    x_data.heart_disease = (x_data.heart_disease - moyenne.heart_disease) / ecart_type.heart_disease
+    # Standardisation de l'avg_glucose_level
+    x_data.avg_glucose_level = (x_data.avg_glucose_level - moyenne.avg_glucose_level) / ecart_type.avg_glucose_level
+    # Standardisation du bmi
+    x_data.bmi = (x_data.bmi - moyenne.bmi) / ecart_type.bmi
+
+    return x_data

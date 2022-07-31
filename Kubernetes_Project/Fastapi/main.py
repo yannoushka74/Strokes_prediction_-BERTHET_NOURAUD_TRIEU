@@ -17,7 +17,7 @@ class Patient(BaseModel):
         - age
         - problème d'hypertension : 0 (non), 1 (oui)
         - Maladie du coeur : 0 (non), 1 (oui)
-        - Déjà marrié ? : 0 (non), 1 (oui)
+        - Déjà marié ? : 0 (non), 1 (oui)
         - Type de résidence : 0 (rural), 1 (urbain)
         - Taux de glucose
         - bmi : indice de masse corporel
@@ -73,7 +73,6 @@ def post_predict_patient(patient: Patient):
         get_generate_ml()
         data = [patient.age, patient.hypertension, patient.heart_disease, patient.ever_married,
                 patient.Residence_type, patient.avg_glucose_level, patient.bmi]
-        print(data)
         x_patient = pd.DataFrame([data], columns=['age', 'hypertension', 'heart_disease', 'ever_married',
                                                   'Residence_type', 'avg_glucose_level', 'bmi'])
         stroke = stroke_predict(x_patient, saved_ml_file)
