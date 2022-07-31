@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-ADD requirements.txt main.py stroke_clean.csv ./
+ADD requirements.txt main.py stroke_clean.csv test_fastapi.py ./
 
 RUN apt update && apt install python3-pip libmysqlclient-dev -y && pip install -r requirements.txt
 

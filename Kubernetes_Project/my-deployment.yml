@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: fastapi-api
-        image: yannoushka/jan22_cde_05_strokes:latest
+        image: lonrd/jan22_cde_05_strokes:latest
         ports:
         - containerPort: 8000
