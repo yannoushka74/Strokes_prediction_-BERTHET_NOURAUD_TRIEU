@@ -1,12 +1,33 @@
-Strokes - P2
-
+Création du déploiement Kubernetes de l'api dans my_deploiment.yml,my_service.yml,my_ingress.yml
+--> Création du dockerfile:
+    -ubuntu 20-2
+    -Python 3
+    -plus installation des packages nécéssaire pour faire du ML voir requirement.txt
+    -embarque les fichiers ML.py,main.py et le dataset cleaner stroke.csv
+    -lancement du service unicorn au lancement du container.
+    
+--> My_deploiement.yml:
+    - nom du deploiement :fastapi-deploiment
+    - 3 réplicats du container lonrd/jan22_cde_05_strokes:latest 
+    - accès possible depuis le port 8000
+    
+--> my_service.yml:
+    - nom du service:   fastapi-service
+    - redirection sur le port 8000
+--> my_ingress.yml:
+    - nom de l'ingress:fastapi-ingress
+    - redirection externe sur le port 8001
+--> fichier install_instructions.txt:
+    - instructions pour push du dockerfile sur le dockerhub
+    - instructions pour l'installation de kublet,minicube et ingres.
+    - intégration du déploiement,service et ingres.
+    
 - Création de l'API avec FastAPI dans main.py et ML.py
-
 Fonctionnalités mise à disposition :
--> Etat de fonctionnement de l'API
--> Génération du modèle de Machine Learning à partir d'un fichier csv contenant les données de patients, en utilisant la régression logistique, et stockage du modèle entraîné dans un fichier avec la librairie Joblib. Seules les variables d'observations les plus pertinentes ont été conservées pour entraîner le modèle.
--> Performance du modèle enregistré
--> Prédiction d'une crise cardiaque d'un patient en fonction de ses données de santé et contextuelles les plus corrélées avec le fait d'avoir une crise cardiaque: âge, état matrimonial, type de résidence (urbain ou rural), hypertension, maladie du coeur, taux de glucose, bmi (imc)
-Les deux dernières fonctionnalités sont accessibles même si le modèle n'a pas encore été généré. Dans ce cas, il est automatiquement créé et stocké dans un fichier avant de lancer ces fonctionnalités.
+  -> Etat de fonctionnement de l'API
+  -> Génération du modèle de Machine Learning à partir d'un fichier csv contenant les données de patients, en utilisant la régression logistique, et            stockage du modèle entraîné dans un fichier avec la librairie Joblib. Seules les variables d'observations les plus pertinentes ont été conservées pour      entraîner le modèle.
+  -> Performance du modèle enregistré
+  -> Prédiction d'une crise cardiaque d'un patient en fonction de ses données de santé et contextuelles les plus corrélées avec le fait d'avoir une crise        cardiaque: âge, état matrimonial, type de résidence (urbain ou rural), hypertension, maladie du coeur, taux de glucose, bmi (imc)
+     Les deux dernière fonctionnalités sont accessibles même si le modèle n'a pas encore été généré. Dans ce cas, il est automatiquement créé et stocké          dans un fichier avant de lancer ces fonctionnalités.
 
 Documentation plus complète dans l'interface OpenApi
