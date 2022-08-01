@@ -17,7 +17,7 @@ minikube addons enable ingress
 docker image build . -t fast_api:latest
 
 
-kubectl create secret generic my-secret --from-literal bdd_password=datascientest1234
+#kubectl create secret generic my-secret --from-literal bdd_password=datascientest1234
 kubectl create -f my-deployment.yml
 kubectl create -f my-service.yml
 kubectl create -f my-ingress.yml
