@@ -6,4 +6,4 @@ RUN apt update && apt install python3-pip libmysqlclient-dev -y && pip install -
 
 EXPOSE 8000
 
-CMD uvicorn main:server --host 0.0.0.0
+CMD uvicorn main:api --host 0.0.0.0

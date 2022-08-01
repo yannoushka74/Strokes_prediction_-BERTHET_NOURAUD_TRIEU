@@ -22,8 +22,8 @@ kubectl create -f my-deployment.yml
 kubectl create -f my-service.yml
 kubectl create -f my-ingress.yml
 
-docker tag fast_api:latest yannoushka/jan22_cde_05_strokes:latest
-docker push yannoushka/jan22_cde_05_strokes:latest
+docker tag fast_api:latest lonrd/jan22_cde_05_strokes:latest
+docker push lonrd/jan22_cde_05_strokes:latest
 
 tunnel ssh pour voir l'api
 ssh -i "data_enginering_machine.pem" ubuntu@34.255.122.217 -fNL 8000:192.168.49.2:80
