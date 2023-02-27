@@ -1,0 +1,7 @@
+sudo docker exec -it mongodb bash
+
+docker image build . -t fast_api_p3:latest
+
+docker tag fast_api_p3:latest yannoushka/fast_api_p3:latest
+
+docker push yannoushka/fast_api_p3:latest
